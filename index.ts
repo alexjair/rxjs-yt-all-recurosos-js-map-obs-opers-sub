@@ -1,5 +1,6 @@
 import {Observable, Observer} from 'rxjs';
-
+import {filter, map} from 'rxjs/operators';
+//Observador
 const myObserver: Observer<any> =  {
   next : x => {
     if(!isNaN(x)){ //Saber si es un Numero
@@ -17,6 +18,7 @@ const myObserver: Observer<any> =  {
   }
 }
 
+//Observable
 const myObservable = new Observable( subscriber => {
     subscriber.next(1);
     subscriber.next(2);
@@ -32,9 +34,25 @@ const myObservable2 = new Observable( subscriber => {
   subscriber.complete();
 });
 
-console.log("Run 001: myObservable");
-console.log("------------------");
+console.log("=>");
+console.log("Run Subscribe() 001: myObservable");
+console.log("-----------------------------------");
 myObservable.subscribe(myObserver);
-console.log("Run 002: myObservable2");
-console.log("------------------");
+
+console.log("=>");
+console.log("Run Subscribe() 002: myObservable2");
+console.log("-----------------------------------");
 myObservable2.subscribe(myObserver);
+
+console.log("=>");
+console.log("Run pipe(): myObservable");
+console.log("--------------------------");
+console.log("Run map(): Map nos permite obetner y return el dato. permite en el proceso modular.");
+const mpipe = myObservable.pipe(
+  filter( (x:any) => !isNaN(x)), 
+  map( (x:any) =>{
+  return x+100;    
+  })
+)
+
+mpipe.subscribe(myObserver);
