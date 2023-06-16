@@ -1,5 +1,8 @@
 import {Observable, Observer} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
+
+/*******************[ 01 Observable-observer-subcribets  ]*********************/
+
 //Observador
 const myObserver: Observer<any> =  {
   next : x => {
@@ -44,7 +47,7 @@ console.log("Run Subscribe() 002: myObservable2");
 console.log("-----------------------------------");
 myObservable2.subscribe(myObserver);
 
-/*******************[ 02 Operators-pipe-map  ]*********************/
+/***************************[ 02 Operators-pipe-map  ]****************************/
 
 //Pipe
 console.log("=>");
@@ -68,5 +71,21 @@ console.log("Run pipe() + subcribe()");
 console.log("--------------------------");
 mypipe.subscribe(myObserver);
 
+/*******************[ 03 (pipes)operators-vs-observer.ts  ]*********************/
 
+//Codigo normal de implementación: pipe() + subcribe()
+mypipe.subscribe({
+  next : x => {
+    console.log(x);
+  },
+  error: err => {
+    console.error(`Se produjo un error.`,err)
+  },
+  complete: () => {
+    console.log('Trabajo completado.')
+  },
+});
+
+//PIPES :  SON GENERICOS
+//SUBCRIBE : ESPECIFICOS
 
