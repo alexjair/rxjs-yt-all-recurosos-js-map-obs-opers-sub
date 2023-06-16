@@ -44,15 +44,3 @@ console.log("Run Subscribe() 002: myObservable2");
 console.log("-----------------------------------");
 myObservable2.subscribe(myObserver);
 
-console.log("=>");
-console.log("Run pipe(): myObservable");
-console.log("--------------------------");
-console.log("Run map(): Map nos permite obetner y return el dato. permite en el proceso modular.");
-const mpipe = myObservable.pipe(
-  filter( (x:any) => !isNaN(x)), 
-  map( (x:any) =>{
-  return x+100;    
-  })
-)
-
-mpipe.subscribe(myObserver);

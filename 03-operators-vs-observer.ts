@@ -1,0 +1,67 @@
+import {Observable, Observer} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+//Observador
+const myObserver: Observer<any> =  {
+  next : x => {
+    if(!isNaN(x)){ //Saber si es un Numero
+      console.log("'X' es un numero.");
+      console.log("Valor: ",x);
+    }else{
+      console.log(`'X' no es un numero. Valor = ${x}`);
+    }
+  },
+  error: err => {
+    console.error("Se produjo un error.", err);
+  },
+  complete: () => {
+    console.log("Trabajo completado..");
+  }
+}
+
+//Observable
+const myObservable1 = new Observable( obs => {
+    obs.next(1);
+    obs.next(2);
+    obs.next("Hola mensaje");
+    setTimeout(() => {
+      obs.next(4);
+      obs.complete();
+    }, 1000);
+    obs.error("Respuesta de Error");
+});
+
+const myObservable2 = new Observable( obs => {
+  obs.complete();
+});
+
+console.log("=>");
+console.log("Run Subscribe() 001: myObservable");
+console.log("-----------------------------------");
+myObservable1.subscribe(myObserver);
+
+console.log("=>");
+console.log("Run Subscribe() 002: myObservable2");
+console.log("-----------------------------------");
+myObservable2.subscribe(myObserver);
+
+//Pipe
+console.log("=>");
+console.log("Run pipe(): myObservable");
+console.log("--------------------------");
+console.log("Run map(): Map nos permite obtener y return el dato. permite en el proceso modular.");
+const mypipe = myObservable1.pipe(
+  filter( 
+    (x:any) => !isNaN(x) //Filtro si es valido envia el dato a "Map", sin es invalido no lo envia.
+  ), 
+  map( 
+    (x:any) =>{
+      return x+100;    
+    }
+  ),
+);
+
+//pipe() + subcribe()
+console.log("=>");
+console.log("Run pipe() + subcribe()");
+console.log("--------------------------");
+mypipe.subscribe(myObserver);
