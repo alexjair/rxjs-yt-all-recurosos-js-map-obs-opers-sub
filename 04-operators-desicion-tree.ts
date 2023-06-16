@@ -91,3 +91,5 @@ mypipe.subscribe({
 
 /*******************[ 04 operators desicion tree.ts  ]*********************/
 
+//El uso de Doc: 
+//https://rxjs.dev/operator-decision-tree

@@ -1,5 +1,5 @@
-import {Observable, Observer} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {Observable, Observer, of, pipe} from 'rxjs';
+import {delay, filter, map, tap, scan} from 'rxjs/operators';
 
 /*******************[ 01 Observable-observer-subcribets  ]*********************/
 
@@ -90,3 +90,59 @@ mypipe.subscribe({
 //SUBCRIBE : ESPECIFICOS
 
 /*******************[ 04 operators desicion tree.ts  ]*********************/
+
+//El uso de Doc: 
+//https://rxjs.dev/operator-decision-tree
+
+/*******************[ 05 Pipe y cadena de subcripciones  ]*********************/
+
+const vObs = of("Wolrd");
+
+const vObsPipe = vObs.pipe(
+  filter( x => x.includes("Hola")),
+  map( x => {
+    return `Hola ${x} | ` 
+  }),
+  tap( ev => console.log(ev + "opertors 'Tap' | ") ),
+  delay(5000),
+  scan( (acc, one) => acc + one, "opertors 'scan' | "),
+);
+
+vObsPipe.subscribe(console.log);
+
+/*******************[ 06 custom - operations  ]*********************/
+console.log("=>");
+
+//declarando funcion vacia
+const funVacia = () => 
+  pipe(
+    scan((acc: any, value: any ) => {
+        const newValue = value.a;
+        if (newValue % 2 === 0){
+          acc.push(newValue);
+        }
+        return acc;
+      }, [] ),
+    tap((v) => console.log(v))
+  );
+
+const mydata =[
+  {a:1},
+  {a:2},
+  {a:3},
+  {a:4},
+  {a:5},
+];
+
+const vObsB = of(...mydata);
+
+const vObsBvPipeB = vObsB.pipe(
+  funVacia(),
+  map(
+    x => {
+      return `Hello ${x}!`
+    }
+  ),
+);
+
+vObsBvPipeB.subscribe(console.log);

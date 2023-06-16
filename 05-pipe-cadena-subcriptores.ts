@@ -1,5 +1,5 @@
-import {Observable, Observer} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {Observable, Observer, of} from 'rxjs';
+import {delay, filter, map, tap, scan} from 'rxjs/operators';
 
 /*******************[ 01 Observable-observer-subcribets  ]*********************/
 
@@ -90,3 +90,22 @@ mypipe.subscribe({
 //SUBCRIBE : ESPECIFICOS
 
 /*******************[ 04 operators desicion tree.ts  ]*********************/
+
+//El uso de Doc: 
+//https://rxjs.dev/operator-decision-tree
+
+/*******************[ 05 Pipe y cadena de subcripciones  ]*********************/
+
+const vObs = of("Wolrd");
+
+const vObsPipe = vObs.pipe(
+  filter( x => x.includes("Hola")),
+  map( x => {
+    return `Hola ${x} | ` 
+  }),
+  tap( ev => console.log(ev + "opertors 'Tap' | ") ),
+  delay(5000),
+  scan( (acc, one) => acc + one, "opertors 'scan' | "),
+);
+
+vObsPipe.subscribe(console.log);
