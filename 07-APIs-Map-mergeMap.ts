@@ -1,5 +1,6 @@
-import {Observable, Observer, of, pipe} from 'rxjs';
-import {delay, filter, map, tap, scan} from 'rxjs/operators';
+import {Observable, Observer, fromEvent, of, pipe} from 'rxjs';
+import {ajax} from 'rxjs/ajax';
+import {delay, filter, map, tap, scan, mergeMap} from 'rxjs/operators';
 
 /*******************[ 01 Observable-observer-subcribets  ]*********************/
 
@@ -99,7 +100,7 @@ mypipe.subscribe({
 const vObs = of("Wolrd");
 
 const vObsPipe = vObs.pipe(
-  filter( x => x.includes("Hola")),
+  filter( x => x.includes('Hola')),
   map( x => {
     return `Hola ${x} | ` 
   }),
@@ -147,6 +148,26 @@ const vObsBvPipeB = vObsB.pipe(
 
 vObsBvPipeB.subscribe(console.log);
 
+/*******************[ 07 APIs Map - MergeMap ]*********************/
 
 //https://rickandmortyapi.com/documentation
 //https://rickandmortyapi.com/api/character/1
+
+const API_URL = 'https://rickandmortyapi.com/api/character/1';
+
+//MAP: returna valor, remapea los datos.
+//MERGEMAP: Retorna un observer distinto para realizar un 2do llamado.
+
+//declare observable
+const click$ = fromEvent(document, 'click');
+
+click$
+    .pipe(
+      map(
+        (data) => {
+          if(data.isTrusted){
+            return 10;
+          }
+        }
+      ),
+    ).subscribe(console.log);

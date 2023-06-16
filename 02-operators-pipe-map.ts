@@ -1,7 +1,9 @@
 import {Observable, Observer} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
+
+
 //Observador
-const myObserver: Observer<any> =  {
+const myObserver: Observer<any> = {
   next : x => {
     if(!isNaN(x)){ //Saber si es un Numero
       console.log("'X' es un numero.");
